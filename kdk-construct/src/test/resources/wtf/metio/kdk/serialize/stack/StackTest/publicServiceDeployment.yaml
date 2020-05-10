@@ -1,0 +1,140 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    branch: master
+    commit: d9901dde1afad491eec589a5c5264679fdb17d20
+    helm.sh/chart: test
+    app.kubernetes.io/name: test
+    app.kubernetes.io/version: 1.2.3
+    app.kubernetes.io/component: backend
+    app.kubernetes.io/part-of: conan
+    app.kubernetes.io/instance: eu-west-17
+    app.kubernetes.io/managed-by: kdk
+  name: test
+  namespace: example
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: test
+      app.kubernetes.io/instance: eu-west-17
+  template:
+    metadata:
+      labels:
+        branch: master
+        commit: d9901dde1afad491eec589a5c5264679fdb17d20
+        helm.sh/chart: test
+        app.kubernetes.io/name: test
+        app.kubernetes.io/version: 1.2.3
+        app.kubernetes.io/component: backend
+        app.kubernetes.io/part-of: conan
+        app.kubernetes.io/instance: eu-west-17
+        app.kubernetes.io/managed-by: kdk
+      name: test
+      namespace: example
+    spec:
+      containers:
+      - env:
+        - name: DATABASE_HOST
+          value: 192.168.1.38
+        - name: DATABASE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: db-pass
+              name: db-secrets
+              optional: false
+        image: io.docker/orga/awesome-service:latest
+        name: awesome-service
+        livenessProbe:
+          failureThreshold: 3
+          successThreshold: 5
+          initialDelaySeconds: 30
+          periodSeconds: 15
+          timeoutSeconds: 2
+          httpGet:
+            path: /
+            port: 8080
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 100m
+            memory: 128Mi
+        readinessProbe:
+          failureThreshold: 3
+          successThreshold: 5
+          initialDelaySeconds: 30
+          periodSeconds: 15
+          timeoutSeconds: 2
+          httpGet:
+            path: /
+            port: 8080
+        volumeMounts:
+        - mountPath: example
+          name: /opt/data
+      imagePullSecrets:
+      - name: registry-pull-secret
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    branch: master
+    commit: d9901dde1afad491eec589a5c5264679fdb17d20
+    helm.sh/chart: test
+    app.kubernetes.io/name: test
+    app.kubernetes.io/version: 1.2.3
+    app.kubernetes.io/component: backend
+    app.kubernetes.io/part-of: conan
+    app.kubernetes.io/instance: eu-west-17
+    app.kubernetes.io/managed-by: kdk
+  name: test
+  namespace: example
+spec:
+  ports:
+  - port: 8080
+  selector:
+    app.kubernetes.io/name: test
+    app.kubernetes.io/instance: eu-west-17
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/tls-acme: 'true'
+    cert-manager.io/cluster-issuer: test-tls
+  labels:
+    branch: master
+    commit: d9901dde1afad491eec589a5c5264679fdb17d20
+    helm.sh/chart: test
+    app.kubernetes.io/name: test
+    app.kubernetes.io/version: 1.2.3
+    app.kubernetes.io/component: backend
+    app.kubernetes.io/part-of: conan
+    app.kubernetes.io/instance: eu-west-17
+    app.kubernetes.io/managed-by: kdk
+  name: test
+  namespace: example
+spec:
+  rules:
+  - host: domain.tld
+    http:
+      paths:
+      - backend:
+          serviceName: test
+          servicePort: 8080
+  - host: www.domain.tld
+    http:
+      paths:
+      - backend:
+          serviceName: test
+          servicePort: 8080
+  tls:
+  - hosts:
+    - domain.tld
+    - www.domain.tld
+    secretName: test-tls

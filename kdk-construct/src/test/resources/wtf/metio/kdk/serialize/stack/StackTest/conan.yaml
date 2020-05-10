@@ -1,0 +1,148 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: conan
+  name: test
+  namespace: example
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: conan
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app: conan
+    spec:
+      containers:
+      - args:
+        - java
+        - -Dcom.sun.management.jmxremote.port=2002
+        command:
+        - /bin/bash
+        - -c
+        image: some.image/service:release
+        imagePullPolicy: Always
+        name: test
+        livenessProbe:
+          failureThreshold: 4
+          periodSeconds: 10
+          httpGet:
+            scheme: HTTPS
+            path: /actuator/health
+            port: 9194
+        resources:
+          requests:
+            cpu: 350m
+            memory: 2000Mi
+          limits:
+            cpu: 1200m
+            memory: 3000Mi
+        readinessProbe:
+          failureThreshold: 4
+          periodSeconds: 10
+          httpGet:
+            scheme: HTTPS
+            path: /actuator/health
+            port: 9194
+        securityContext:
+          allowPrivilegeEscalation: false
+          privileged: false
+          readOnlyRootFilesystem: true
+          runAsNonRoot: true
+          runAsUser: 1000
+        startupProbe:
+          failureThreshold: 40
+          periodSeconds: 10
+          httpGet:
+            scheme: HTTPS
+            path: /actuator/health
+            port: 9194
+        stdin: true
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        tty: true
+        volumeMounts:
+        - mountPath: tmp-vol
+          name: /tmp
+        - mountPath: config-volume
+          name: /config
+        - mountPath: /usr/share/local/certs/
+          name: certs
+          readOnly: true
+      dnsPolicy: ClusterFirst
+      imagePullSecrets:
+      - name: pull-secret
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - configMap:
+          name: springboot-config
+        name: config-volume
+      - emptyDir: {
+          }
+        name: tmp-vol
+      - name: certs
+        secret:
+          secretName: cert-secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: test
+  namespace: example
+spec:
+  ports:
+  - name: '9194'
+    port: 9194
+    targetPort: 9194
+  - name: '2002'
+    port: 2002
+    targetPort: 2002
+  selector:
+    app: conan
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/ssl-passthrough: 'true'
+  name: test
+  namespace: example
+spec:
+  rules:
+  - host: example.tld
+    http:
+      paths:
+      - path: /actuator/health
+        backend:
+          serviceName: test
+          servicePort: 9194
+      - path: /service
+        backend:
+          serviceName: test
+          servicePort: 2002
+  tls:
+  - hosts:
+    - example.tld
+    secretName: tls-secret
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: test
+  namespace: example
+data:
+  .dockerconfigjson: some-super-secret-stuff
+type: kubernetes.io/dockerconfigjson
