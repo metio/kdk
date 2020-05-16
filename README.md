@@ -69,6 +69,20 @@ Validators.from(Validators.recommended())
     .withDeploymentSpec(deploymentSpec -> Stream.of(ValidationError.of("some-error-code", deploymentSpec)));
 ```
 
+#### Validation Errors & Presets
+
+| ID                                         | Resource   | Presets          | Description                              | Fix                                             |
+|--------------------------------------------|------------|------------------|------------------------------------------|-------------------------------------------------|
+| urn:kdk:error:secret:missing-metadata      | Secret     | all, recommended | Resource is missing the 'metadata' field | Add a 'metadata' field                          |
+| urn:kdk:error:ingress:missing-metadata     | Ingress    | all, recommended | Resource is missing the 'metadata' field | Add a 'metadata' field                          |
+| urn:kdk:error:service:missing-metadata     | Service    | all, recommended | Resource is missing the 'metadata' field | Add a 'metadata' field                          |
+| urn:kdk:error:deployment:missing-metadata  | Deployment | all, recommended | Resource is missing the 'metadata' field | Add a 'metadata' field                          |
+| urn:kdk:error:job:missing-metadata         | Job        | all, recommended | Resource is missing the 'metadata' field | Add a 'metadata' field                          |
+| urn:kdk:error:annotation:key-blank         | Annotation | all, recommended | The 'key' field is blank                 | Change the 'key' field to something non-blank   |
+| urn:kdk:error:annotation:value-blank       | Annotation | all, recommended | The 'value' field is blank               | Change the 'value' field to something non-blank |
+| urn:kdk:error:objectMeta:name-missing      | ObjectMeta | all, recommended | The 'name' field is not set              | Add a 'name' field                              |
+| urn:kdk:error:objectMeta:namespace-missing | ObjectMeta | all              | The 'namespace' field is not set         | Add a 'namespace' field                         |
+
 ### Serialize
 
 In order to serialize your construct to YAML, use the `Serialize` class.
