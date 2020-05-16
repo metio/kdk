@@ -25,7 +25,7 @@ class SecretSerializationTest implements SerializationTCK {
 
     @Override
     public String basePath() {
-        return "src/test/resources/wtf/metio/kdk/serialize/config/SecretTest/";
+        return "src/test/resources/wtf/metio/kdk/serialize/SecretTest/";
     }
 
     static Stream<Arguments> yamlAndStack() {

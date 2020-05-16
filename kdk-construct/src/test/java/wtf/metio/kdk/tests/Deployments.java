@@ -16,16 +16,12 @@ import wtf.metio.kdk.construct.workloads.*;
 
 import static wtf.metio.kdk.construct.config.ConfigMapVolumeSource.configMapVolumeSource;
 import static wtf.metio.kdk.construct.config.SecretVolumeSource.secretVolumeSource;
-import static wtf.metio.kdk.construct.meta.Label.*;
 import static wtf.metio.kdk.construct.meta.LabelSelector.labelSelect;
 import static wtf.metio.kdk.construct.meta.LocalObjectReference.localObjectReference;
 import static wtf.metio.kdk.construct.meta.Selector.of;
-import static wtf.metio.kdk.construct.workloads.Deployment.deployment;
-import static wtf.metio.kdk.construct.workloads.PodTemplateSpec.podTemplateSpec;
 import static wtf.metio.kdk.construct.meta.ResourceConstraint.resourceConstraint;
 import static wtf.metio.kdk.construct.workloads.VolumeMount.volumeMount;
-import static wtf.metio.kdk.tests.Containers.createContainer;
-import static wtf.metio.kdk.tests.ObjectMetas.createObjectMeta;
+import static wtf.metio.kdk.tests.ObjectMetas.testMetadata;
 
 public final class Deployments {
 
@@ -34,24 +30,9 @@ public final class Deployments {
     }
 
     public static Deployment createDeployment(final ServicePort servicePort) {
-        final var metadata = createObjectMeta();
-        final var container = createContainer(servicePort);
-        final var pullSecret = localObjectReference("registry-pull-secret");
-        final var podSpec = PodSpec.builder()
-                .addContainers(container)
-                .addImagePullSecrets(pullSecret)
-                .restartPolicy("Always")
-                .build();
-        final var template = podTemplateSpec(metadata, podSpec);
-        final var labelSelector = labelSelect(
-                of(k8sName("test")),
-                of(k8sInstance("eu-west-17")));
-        final var deploymentSpec = DeploymentSpec.builder()
-                .replicas(3)
-                .selector(labelSelector)
-                .template(template)
-                .build();
-        return deployment(metadata, deploymentSpec);
+        final var metadata = testMetadata();
+        final var spec = DeploymentSpecs.createDeploymentSpec(servicePort, metadata);
+        return Deployment.of(metadata, spec);
     }
 
     public static Deployment createConanDeployment() {

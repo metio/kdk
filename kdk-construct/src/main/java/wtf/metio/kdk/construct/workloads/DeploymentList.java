@@ -8,13 +8,14 @@
 package wtf.metio.kdk.construct.workloads;
 
 import org.immutables.value.Value;
+import wtf.metio.kdk.construct.internal.TopLevelResource;
 import wtf.metio.kdk.construct.meta.ListMeta;
 
 /**
  * @see <a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.17/#deploymentlist-v1-apps">k8s spec</a>
  */
 @Value.Immutable
-public interface DeploymentList {
+public interface DeploymentList extends TopLevelResource {
 
     //region Builders
     static ImmutableDeploymentList.Builder builder() {

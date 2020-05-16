@@ -7,15 +7,14 @@
 
 package wtf.metio.kdk.tests;
 
+import wtf.metio.kdk.construct.meta.Label;
 import wtf.metio.kdk.construct.meta.ObjectMeta;
 import wtf.metio.kdk.construct.meta.Selector;
 import wtf.metio.kdk.construct.service.Service;
 import wtf.metio.kdk.construct.service.ServiceSpec;
 import wtf.metio.kdk.construct.workloads.ServicePort;
 
-import static wtf.metio.kdk.construct.meta.Label.*;
-import static wtf.metio.kdk.construct.service.Service.service;
-import static wtf.metio.kdk.tests.ObjectMetas.createObjectMeta;
+import static wtf.metio.kdk.tests.ObjectMetas.testMetadata;
 
 public final class Services {
 
@@ -24,12 +23,9 @@ public final class Services {
     }
 
     public static Service createService(final ServicePort servicePort) {
-        final var metadata = createObjectMeta();
-        final var serviceSpec = ServiceSpec.of(servicePort,
-                Selector.of(k8sName("test")),
-                Selector.of(k8sInstance("eu-west-17"))
-        );
-        return service(metadata, serviceSpec);
+        final var metadata = testMetadata();
+        final var serviceSpec = ServiceSpecs.createServiceSpec(servicePort);
+        return Service.of(metadata, serviceSpec);
     }
 
     public static Service createConanService() {
@@ -49,7 +45,7 @@ public final class Services {
                                 .port(2002)
                                 .targetPort(2002)
                                 .build())
-                        .addSelectors(Selector.of(of("app", "conan")))
+                        .addSelectors(Selector.of(Label.of("app", "conan")))
                         .build())
                 .build();
     }

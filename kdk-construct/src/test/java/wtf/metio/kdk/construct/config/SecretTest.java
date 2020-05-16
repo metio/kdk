@@ -7,20 +7,25 @@
 
 package wtf.metio.kdk.construct.config;
 
-import org.junit.jupiter.api.Test;
+import wtf.metio.kdk.construct.ConstructTCK;
+import wtf.metio.kdk.construct.ConstructWithBuilderTCK;
+import wtf.metio.kdk.tests.Secrets;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.util.stream.Stream;
 
-class SecretTest {
+class SecretTest implements ConstructTCK<Secret>, ConstructWithBuilderTCK<ImmutableSecret.Builder> {
 
-    @Test
-    void shouldHaveBuilder() {
-        assertNotNull(Secret.builder());
+    static Stream<Secret> types() {
+        return Stream.of(
+                Secrets.testSecret(),
+                Secrets.dockerconfigjson(),
+                Secrets.testSecretWithMetadata()
+        );
     }
 
-    @Test
-    void shouldCreateSecret() {
-        assertNotNull(Secret.builder().type("kubernetes.io/dockerconfigjson").build());
+    @Override
+    public ImmutableSecret.Builder builder() {
+        return Secret.builder();
     }
 
 }

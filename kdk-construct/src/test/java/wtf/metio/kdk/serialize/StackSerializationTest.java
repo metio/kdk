@@ -26,7 +26,7 @@ class StackSerializationTest implements SerializationTCK {
 
     @Override
     public String basePath() {
-        return "src/test/resources/wtf/metio/kdk/serialize/stack/StackTest/";
+        return "src/test/resources/wtf/metio/kdk/serialize/StackTest/";
     }
 
     static Stream<Arguments> yamlAndStack() {

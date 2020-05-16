@@ -7,8 +7,27 @@
 
 package wtf.metio.kdk.construct.config;
 
-import static org.junit.jupiter.api.Assertions.*;
+import wtf.metio.kdk.construct.ConstructTCK;
+import wtf.metio.kdk.construct.ConstructWithBuilderTCK;
 
-class ConfigMapTest {
+import java.util.Map;
+import java.util.stream.Stream;
+
+class ConfigMapTest implements ConstructTCK<ConfigMap>, ConstructWithBuilderTCK<ImmutableConfigMap.Builder> {
+
+    static Stream<ConfigMap> types() {
+        return Stream.of(
+                ConfigMap.builder().build(),
+                ConfigMap.builder().putData("key", "value").build(),
+                ConfigMap.builder().putBinaryData("key", "value").build(),
+                ConfigMap.builder().data(Map.of()).build(),
+                ConfigMap.builder().binaryData(Map.of()).build()
+        );
+    }
+
+    @Override
+    public ImmutableConfigMap.Builder builder() {
+        return ConfigMap.builder();
+    }
 
 }

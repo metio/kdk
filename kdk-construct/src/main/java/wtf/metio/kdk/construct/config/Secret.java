@@ -9,6 +9,7 @@ package wtf.metio.kdk.construct.config;
 
 import org.immutables.value.Value;
 import wtf.metio.kdk.construct.internal.HasMetaData;
+import wtf.metio.kdk.construct.internal.TopLevelResource;
 
 import java.util.Map;
 
@@ -16,7 +17,7 @@ import java.util.Map;
  * @see <a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.17/#secret-v1-core">k8s spec</a>
  */
 @Value.Immutable
-public interface Secret extends HasMetaData {
+public interface Secret extends HasMetaData, TopLevelResource {
 
     //region Builders
     static ImmutableSecret.Builder builder() {

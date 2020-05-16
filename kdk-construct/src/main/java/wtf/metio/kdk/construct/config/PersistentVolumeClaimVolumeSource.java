@@ -27,9 +27,17 @@ public interface PersistentVolumeClaimVolumeSource {
     }
     //endregion
 
+    /**
+     * ClaimName is the name of a PersistentVolumeClaim in the same namespace as the pod using this volume.
+     *
+     * @see <a href="https://kubernetes.io/docs/concepts/storage/persistent-volumes#persistentvolumeclaims">k8s docs</a>
+     */
     @Value.Parameter
     String claimName();
 
+    /**
+     * Will force the ReadOnly setting in VolumeMounts. Default false.
+     */
     Optional<Boolean> readOnly();
 
 }

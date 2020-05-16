@@ -7,8 +7,22 @@
 
 package wtf.metio.kdk.construct.config;
 
-import static org.junit.jupiter.api.Assertions.*;
+import wtf.metio.kdk.construct.ConstructTCK;
+import wtf.metio.kdk.construct.ConstructWithBuilderTCK;
 
-class VolumeTest {
+import java.util.stream.Stream;
+
+class VolumeTest implements ConstructTCK<Volume>, ConstructWithBuilderTCK<ImmutableVolume.Builder> {
+
+    static Stream<Volume> types() {
+        return Stream.of(
+                Volume.builder().name("test").build()
+        );
+    }
+
+    @Override
+    public ImmutableVolume.Builder builder() {
+        return Volume.builder();
+    }
 
 }

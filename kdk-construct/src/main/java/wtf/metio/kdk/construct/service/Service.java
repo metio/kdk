@@ -9,17 +9,18 @@ package wtf.metio.kdk.construct.service;
 
 import org.immutables.value.Value;
 import wtf.metio.kdk.construct.internal.HasMetaData;
+import wtf.metio.kdk.construct.internal.TopLevelResource;
 import wtf.metio.kdk.construct.meta.ObjectMeta;
 
 @Value.Immutable
-public interface Service extends HasMetaData {
+public interface Service extends HasMetaData, TopLevelResource {
 
     //region Builders
     static ImmutableService.Builder builder() {
         return ImmutableService.builder();
     }
 
-    static Service service(final ObjectMeta objectMeta, final ServiceSpec spec) {
+    static Service of(final ObjectMeta objectMeta, final ServiceSpec spec) {
         return builder()
                 .metadata(objectMeta)
                 .spec(spec)

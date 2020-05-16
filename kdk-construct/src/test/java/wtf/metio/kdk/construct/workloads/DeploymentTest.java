@@ -7,8 +7,43 @@
 
 package wtf.metio.kdk.construct.workloads;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
+import wtf.metio.kdk.construct.ConstructTCK;
+import wtf.metio.kdk.construct.ConstructWithBuilderTCK;
+import wtf.metio.kdk.tests.DeploymentSpecs;
+import wtf.metio.kdk.tests.Deployments;
+import wtf.metio.kdk.tests.ObjectMetas;
 
-class DeploymentTest {
+import java.util.stream.Stream;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+class DeploymentTest implements ConstructTCK<Deployment>, ConstructWithBuilderTCK<ImmutableDeployment.Builder> {
+
+    static Stream<Deployment> types() {
+        return Stream.of(
+                Deployments.testDeployment(),
+                Deployments.createConanDeployment(),
+                Deployments.createDeployment(ServicePort.of(12345))
+        );
+    }
+
+    @Override
+    public ImmutableDeployment.Builder builder() {
+        return Deployment.builder();
+    }
+
+    @Test
+    void shouldSupportFactoryMethod() {
+        // given
+        final var metadata = ObjectMetas.testMetadata();
+        final var spec = DeploymentSpecs.testDeploymentSpec();
+
+        // when
+        final var service = Deployment.of(metadata, spec);
+
+        // then
+        assertNotNull(service);
+    }
 
 }

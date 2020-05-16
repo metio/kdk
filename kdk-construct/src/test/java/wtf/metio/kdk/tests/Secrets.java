@@ -20,7 +20,7 @@ public final class Secrets {
 
     public static Secret testSecretWithMetadata() {
         return Secret.builder()
-                .metadata(ObjectMetas.createObjectMeta())
+                .metadata(ObjectMetas.testMetadata())
                 .type("test")
                 .build();
     }

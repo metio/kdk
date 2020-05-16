@@ -9,19 +9,17 @@ package wtf.metio.kdk.serialize;
 
 import org.junit.jupiter.params.provider.Arguments;
 import wtf.metio.kdk.construct.config.ConfigMap;
-import wtf.metio.kdk.construct.config.Secret;
-import wtf.metio.kdk.serialize.SerializationTCK;
 import wtf.metio.kdk.stack.Stack;
 
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
-class ConfigSerializationTest implements SerializationTCK {
+class ConfigMapSerializationTest implements SerializationTCK {
 
     @Override
     public String basePath() {
-        return "src/test/resources/wtf/metio/kdk/serialize/config/ConfigTest/";
+        return "src/test/resources/wtf/metio/kdk/serialize/ConfigMapTest/";
     }
 
     static Stream<Arguments> yamlAndStack() {

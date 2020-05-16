@@ -7,8 +7,44 @@
 
 package wtf.metio.kdk.construct.service;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
+import wtf.metio.kdk.construct.ConstructTCK;
+import wtf.metio.kdk.construct.ConstructWithBuilderTCK;
+import wtf.metio.kdk.construct.workloads.ServicePort;
+import wtf.metio.kdk.tests.IngressSpecs;
+import wtf.metio.kdk.tests.Ingresses;
+import wtf.metio.kdk.tests.ObjectMetas;
 
-class IngressTest {
+import java.util.stream.Stream;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+class IngressTest implements ConstructTCK<Ingress>, ConstructWithBuilderTCK<ImmutableIngress.Builder> {
+
+    static Stream<Ingress> types() {
+        return Stream.of(
+                Ingresses.testIngress(),
+                Ingresses.createConanIngress(),
+                Ingresses.createIngress(ServicePort.of(12345))
+        );
+    }
+
+    @Override
+    public ImmutableIngress.Builder builder() {
+        return Ingress.builder();
+    }
+
+    @Test
+    void shouldSupportFactoryMethod() {
+        // given
+        final var metadata = ObjectMetas.testMetadata();
+        final var spec = IngressSpecs.testIngressSpec();
+
+        // when
+        final var service = Ingress.of(metadata, spec);
+
+        // then
+        assertNotNull(service);
+    }
 
 }

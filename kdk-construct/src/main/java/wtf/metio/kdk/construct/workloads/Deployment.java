@@ -9,17 +9,18 @@ package wtf.metio.kdk.construct.workloads;
 
 import org.immutables.value.Value;
 import wtf.metio.kdk.construct.internal.HasMetaData;
+import wtf.metio.kdk.construct.internal.TopLevelResource;
 import wtf.metio.kdk.construct.meta.ObjectMeta;
 
 @Value.Immutable
-public interface Deployment extends HasMetaData {
+public interface Deployment extends HasMetaData, TopLevelResource {
 
     //region Builders
     static ImmutableDeployment.Builder builder() {
         return ImmutableDeployment.builder();
     }
 
-    static Deployment deployment(final ObjectMeta objectMeta, final DeploymentSpec spec) {
+    static Deployment of(final ObjectMeta objectMeta, final DeploymentSpec spec) {
         return builder()
                 .metadata(objectMeta)
                 .spec(spec)

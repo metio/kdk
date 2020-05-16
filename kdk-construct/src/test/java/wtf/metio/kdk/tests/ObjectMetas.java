@@ -15,7 +15,7 @@ import static wtf.metio.kdk.construct.meta.Label.k8sManagedBy;
 
 public final class ObjectMetas {
 
-    public static ImmutableObjectMeta createObjectMeta() {
+    public static ImmutableObjectMeta testMetadata() {
         return ObjectMeta.builder()
                 .name("test")
                 .namespace("example")

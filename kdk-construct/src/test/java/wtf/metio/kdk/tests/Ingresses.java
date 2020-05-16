@@ -14,7 +14,7 @@ import wtf.metio.kdk.construct.workloads.ServicePort;
 
 import static wtf.metio.kdk.construct.meta.Annotation.certManagerClusterIssuer;
 import static wtf.metio.kdk.construct.meta.Annotation.k8sTlsAcme;
-import static wtf.metio.kdk.tests.ObjectMetas.createObjectMeta;
+import static wtf.metio.kdk.tests.ObjectMetas.testMetadata;
 
 public final class Ingresses {
 
@@ -23,11 +23,8 @@ public final class Ingresses {
     }
 
     public static Ingress createIngress(final ServicePort servicePort) {
-        final var metadata = createObjectMeta();
-        final var canonical = IngressRule.of("domain.tld", "test", servicePort);
-        final var www = IngressRule.of("www.domain.tld", "test", servicePort);
-        final var tls = IngressTLS.of("test-tls", "domain.tld", "www.domain.tld");
-        final var ingressSpec = IngressSpec.of(tls, canonical, www);
+        final var metadata = testMetadata();
+        final IngressSpec ingressSpec = IngressSpecs.createIngressSpec(servicePort);
         final var annotations = metadata.withAnnotations(k8sTlsAcme(true), certManagerClusterIssuer("test-tls"));
         return Ingress.of(annotations, ingressSpec);
     }

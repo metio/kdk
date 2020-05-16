@@ -7,8 +7,41 @@
 
 package wtf.metio.kdk.construct.config;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
+import wtf.metio.kdk.construct.ConstructTCK;
+import wtf.metio.kdk.construct.ConstructWithBuilderTCK;
 
-class PersistentVolumeClaimVolumeSourceTest {
+import java.util.stream.Stream;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+class PersistentVolumeClaimVolumeSourceTest implements
+        ConstructTCK<PersistentVolumeClaimVolumeSource>,
+        ConstructWithBuilderTCK<ImmutablePersistentVolumeClaimVolumeSource.Builder> {
+
+    static Stream<PersistentVolumeClaimVolumeSource> types() {
+        return Stream.of(
+                PersistentVolumeClaimVolumeSource.of("test"),
+                PersistentVolumeClaimVolumeSource.builder().claimName("test").build(),
+                PersistentVolumeClaimVolumeSource.builder().claimName("test").readOnly(true).build()
+        );
+    }
+
+    @Override
+    public ImmutablePersistentVolumeClaimVolumeSource.Builder builder() {
+        return PersistentVolumeClaimVolumeSource.builder();
+    }
+
+    @Test
+    void shouldSupportFactoryMethod() {
+        // given
+        final var claimName = "test";
+
+        // when
+        final var service = PersistentVolumeClaimVolumeSource.of(claimName);
+
+        // then
+        assertNotNull(service);
+    }
 
 }

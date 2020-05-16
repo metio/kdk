@@ -9,13 +9,14 @@ package wtf.metio.kdk.construct.service;
 
 import org.immutables.value.Value;
 import wtf.metio.kdk.construct.internal.HasMetaData;
+import wtf.metio.kdk.construct.internal.TopLevelResource;
 import wtf.metio.kdk.construct.meta.ObjectMeta;
 
 /**
  * @see <a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.17/#ingress-v1beta1-networking-k8s-io">k8s spec</a>
  */
 @Value.Immutable
-public interface Ingress extends HasMetaData {
+public interface Ingress extends HasMetaData, TopLevelResource {
 
     //region Builders
     static ImmutableIngress.Builder builder() {

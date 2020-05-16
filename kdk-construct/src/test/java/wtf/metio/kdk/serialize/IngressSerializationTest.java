@@ -25,7 +25,7 @@ class IngressSerializationTest implements SerializationTCK {
 
     @Override
     public String basePath() {
-        return "src/test/resources/wtf/metio/kdk/serialize/service/IngressTest/";
+        return "src/test/resources/wtf/metio/kdk/serialize/IngressTest/";
     }
 
     static Stream<Arguments> yamlAndStack() {

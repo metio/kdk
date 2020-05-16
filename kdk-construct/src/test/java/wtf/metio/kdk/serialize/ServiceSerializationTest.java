@@ -22,7 +22,7 @@ class ServiceSerializationTest implements SerializationTCK {
 
     @Override
     public String basePath() {
-        return "src/test/resources/wtf/metio/kdk/serialize/service/ServiceTest/";
+        return "src/test/resources/wtf/metio/kdk/serialize/ServiceTest/";
     }
 
     static Stream<Arguments> yamlAndStack() {
