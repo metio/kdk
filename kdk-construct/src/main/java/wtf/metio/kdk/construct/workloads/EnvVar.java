@@ -22,14 +22,14 @@ public interface EnvVar {
         return ImmutableEnvVar.builder();
     }
 
-    static EnvVar envVar(final String name, final String value) {
+    static EnvVar of(final String name, final String value) {
         return builder()
                 .name(name)
                 .value(value)
                 .build();
     }
 
-    static EnvVar envVar(final String name, final EnvVarSource source) {
+    static EnvVar of(final String name, final EnvVarSource source) {
         return builder()
                 .name(name)
                 .valueFrom(source)

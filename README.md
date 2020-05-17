@@ -174,6 +174,6 @@ If not, see http://creativecommons.org/publicdomain/zero/1.0/.
 Use any of the following to get a copy of the source.
 
 - https://codeberg.org/metio.wtf/kdk
-- https://github.com/metio.wtf/kdk (master only)
+- https://github.com/metio/kdk (master only)
 - https://gitlab.com/metio.wtf/kdk (master only)
 - https://bitbucket.org/metio-wtf/kdk (master only)

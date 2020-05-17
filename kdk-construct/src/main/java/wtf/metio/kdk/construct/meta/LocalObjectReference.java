@@ -13,7 +13,7 @@ import org.immutables.value.Value;
 public interface LocalObjectReference {
 
     //region Builders
-    static LocalObjectReference localObjectReference(final String name) {
+    static LocalObjectReference of(final String name) {
         return ImmutableLocalObjectReference.of(name);
     }
     //endregion

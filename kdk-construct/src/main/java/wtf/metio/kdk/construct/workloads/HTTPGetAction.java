@@ -22,7 +22,7 @@ public interface HTTPGetAction {
         return ImmutableHTTPGetAction.builder();
     }
 
-    static HTTPGetAction httpGetAction(final int port, final String path) {
+    static HTTPGetAction of(final int port, final String path) {
         return builder()
                 .port(port)
                 .path(path)

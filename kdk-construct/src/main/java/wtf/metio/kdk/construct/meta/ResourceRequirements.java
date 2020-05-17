@@ -17,18 +17,31 @@ import java.util.Optional;
 @Value.Immutable
 public interface ResourceRequirements {
 
-    Optional<ResourceConstraint> limits();
-
-    Optional<ResourceConstraint> requests();
-
+    //region Builders
     static ImmutableResourceRequirements.Builder builder() {
         return ImmutableResourceRequirements.builder();
     }
 
-    static ResourceRequirements resourceRequirements(
+    static ResourceRequirements of(
             final ResourceConstraint limits,
             final ResourceConstraint requests) {
         return builder().limits(limits).requests(requests).build();
     }
+    //endregion
+
+    /**
+     * Limits describes the maximum amount of compute resources allowed.
+     * 
+     * @see <a href="https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/">k8s docs</a>
+     */
+    Optional<ResourceConstraint> limits();
+
+    /**
+     * Requests describes the minimum amount of compute resources required. If Requests is omitted for a container, it
+     * defaults to Limits if that is explicitly specified, otherwise to an implementation-defined value.
+     * 
+     * @see <a href="https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/">k8s docs</a>
+     */
+    Optional<ResourceConstraint> requests();
 
 }

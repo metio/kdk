@@ -20,7 +20,7 @@ public interface PodTemplateSpec {
         return ImmutablePodTemplateSpec.builder();
     }
 
-    static PodTemplateSpec podTemplateSpec(final ObjectMeta objectMeta, final PodSpec spec) {
+    static PodTemplateSpec of(final ObjectMeta objectMeta, final PodSpec spec) {
         return ImmutablePodTemplateSpec.builder()
                 .metadata(objectMeta)
                 .spec(spec)

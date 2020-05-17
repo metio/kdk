@@ -15,8 +15,16 @@ import java.util.List;
 public interface LabelSelector {
 
     //region Builders
-    static LabelSelector labelSelect(final Selector... selectors) {
+    static LabelSelector of(final Selector... selectors) {
         return ImmutableLabelSelector.builder().addLabels(selectors).build();
+    }
+
+    static LabelSelector of(final String key, final String value) {
+        return ImmutableLabelSelector.builder().addLabels(Selector.of(Label.of(key, value))).build();
+    }
+    
+    static LabelSelector of(final Label label) {
+        return ImmutableLabelSelector.builder().addLabels(Selector.of(label)).build();
     }
     //endregion
 

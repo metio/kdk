@@ -14,16 +14,18 @@ import java.util.Optional;
 @Value.Immutable
 public interface ResourceConstraint {
 
-    Optional<String> cpu();
-
-    Optional<String> memory();
-
+    //region Builders
     static ImmutableResourceConstraint.Builder builder() {
         return ImmutableResourceConstraint.builder();
     }
 
-    static ResourceConstraint resourceConstraint(final String cpu, final String memory) {
+    static ResourceConstraint of(final String cpu, final String memory) {
         return builder().cpu(cpu).memory(memory).build();
     }
+    //endregion
+
+    Optional<String> cpu();
+
+    Optional<String> memory();
 
 }

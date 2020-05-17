@@ -9,17 +9,12 @@ package wtf.metio.kdk.tests;
 
 import wtf.metio.kdk.construct.config.EmptyDirVolumeSource;
 import wtf.metio.kdk.construct.config.Volume;
-import wtf.metio.kdk.construct.meta.Label;
-import wtf.metio.kdk.construct.meta.ObjectMeta;
-import wtf.metio.kdk.construct.meta.ResourceRequirements;
+import wtf.metio.kdk.construct.meta.*;
 import wtf.metio.kdk.construct.workloads.*;
 
 import static wtf.metio.kdk.construct.config.ConfigMapVolumeSource.configMapVolumeSource;
 import static wtf.metio.kdk.construct.config.SecretVolumeSource.secretVolumeSource;
-import static wtf.metio.kdk.construct.meta.LabelSelector.labelSelect;
-import static wtf.metio.kdk.construct.meta.LocalObjectReference.localObjectReference;
 import static wtf.metio.kdk.construct.meta.Selector.of;
-import static wtf.metio.kdk.construct.meta.ResourceConstraint.resourceConstraint;
 import static wtf.metio.kdk.construct.workloads.VolumeMount.volumeMount;
 import static wtf.metio.kdk.tests.ObjectMetas.testMetadata;
 
@@ -46,7 +41,7 @@ public final class Deployments {
                         .progressDeadlineSeconds(600)
                         .replicas(1)
                         .revisionHistoryLimit(10)
-                        .selector(labelSelect(of(Label.of("app", "conan"))))
+                        .selector(LabelSelector.of(of(Label.of("app", "conan"))))
                         .strategy(DeploymentStrategy.builder()
                                 .type("RollingUpdate")
                                 .rollingUpdate(RollingUpdateDeployment.builder()
@@ -60,7 +55,7 @@ public final class Deployments {
                                         .build())
                                 .spec(PodSpec.builder()
                                         .dnsPolicy("ClusterFirst")
-                                        .addImagePullSecrets(localObjectReference("pull-secret"))
+                                        .addImagePullSecrets(LocalObjectReference.of("pull-secret"))
                                         .restartPolicy("Always")
                                         .schedulerName("default-scheduler")
                                         .terminationGracePeriodSeconds(30)
@@ -83,8 +78,8 @@ public final class Deployments {
                                                 .imagePullPolicy("Always")
                                                 .name("test")
                                                 .resources(ResourceRequirements.builder()
-                                                        .limits(resourceConstraint("1200m", "3000Mi"))
-                                                        .requests(resourceConstraint("350m", "2000Mi"))
+                                                        .limits(ResourceConstraint.of("1200m", "3000Mi"))
+                                                        .requests(ResourceConstraint.of("350m", "2000Mi"))
                                                         .build())
                                                 .startupProbe(Probe.builder()
                                                         .failureThreshold(40)
