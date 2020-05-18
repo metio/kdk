@@ -170,7 +170,7 @@ If not, see http://creativecommons.org/publicdomain/zero/1.0/.
 
 ## Mirrors
 
-`ilo` is mirrored across several git repositories.
+`kdk` is mirrored across several git repositories.
 Use any of the following to get a copy of the source.
 
 - https://codeberg.org/metio.wtf/kdk
