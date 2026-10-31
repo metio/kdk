@@ -1,0 +1,20 @@
+# SPDX-FileCopyrightText: The kdk Authors
+# SPDX-License-Identifier: CC0-1.0
+
+cff-version: 1.2.0
+title: kdk
+message: If you use this software, please cite it as below.
+type: software
+authors:
+- family-names: Hoß
+  given-names: Sebastian
+  email: seb@hoß.de
+url: https://github.com/metio/kdk/
+license: CC0-1.0
+keywords:
+  - java
+  - jshell
+  - k8s
+  - kubernetes
+  - repl
+  - yaml-generator
